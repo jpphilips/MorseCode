@@ -6,6 +6,8 @@ from playsound import playsound
 
 
 def morse(char):
+    """ Takes a '.' or '-' and plays the dit or dah sound"""
+
     if char == '.':
         playsound('sounds/dit.wav')
         time.sleep(0.0005)
@@ -17,6 +19,8 @@ def morse(char):
 
 
 def to_morse_code(text):
+    """ Takes a character or a text and converts to the equivalent morse code. Uses the CODE_MAP dict"""
+
     translated_text = ''
     for char in text:
         if char in CODE_MAP:
@@ -27,6 +31,9 @@ def to_morse_code(text):
 
 
 def to_text(code):
+    """ Takes a '.' or '-' or a series or those characters and converts it to the equivalent english letter
+    or word"""
+
     decoded = ''
     if ' ' in code:
         text_list = []
@@ -64,7 +71,6 @@ def main():
     output_code = ''
     while True:  # Event Loop
         event, values = window.read()
-        # print(event, values)
         if event in (sg.WIN_CLOSED, 'Exit'):
             break
 
@@ -77,17 +83,18 @@ def main():
 
         if values['rad2']:
             if values['-MORSE_CODE-']:
+                # Update the "output" text element to be the value of "input" element
                 output_code = to_text(values['-MORSE_CODE-'])
                 window['-TEXT-'].update(output_code)
 
         if event in 'Play':
+            # make sure output_code is in morse code
             text = values['-TEXT-'].upper() if window['-TEXT-'] else ''
             output_code = to_morse_code(text)
             time.sleep(1)
+            # play sound
             for _ in output_code:
                 morse(_)
-
-            # time.sleep(0.1)
     window.close()
 
 

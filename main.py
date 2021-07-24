@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import time
 from codemap import CODE_MAP
-from images import LOGO, play_btn_base64
+from images import LOGO, play_btn_base64, close_btn_base64
 from playsound import playsound
 
 
@@ -51,22 +51,36 @@ def main():
     sg.theme('DarkGray9')
     layout = [[
               sg.Col([
-                    [sg.Image(data=LOGO, size=(500, 150))],
-                    [sg.Text('Text', size=(10, 1), justification='center'),
-                     sg.Input(key='-TEXT-', enable_events=True)],
-                    [sg.Text('Morse Code', size=(10, 1), justification='center'),
-                     sg.Input(key='-MORSE_CODE-', enable_events=True)],
-                    [sg.Text('*For Morse-to-Text, use spaces to separate letters and "|" to separate words',
-                             justification='center', font=('mono', 8))],
-                    [sg.Radio('Text-to-Morse     ', "RADIO1", key='rad1', default=True),
-                     sg.Radio('Morse-to-Text            ', "RADIO1", key='rad2'),
-                     sg.Button(image_data=play_btn_base64,
-                               button_color=(sg.theme_background_color(), sg.theme_background_color()),
-                               border_width=0, key='Play')
-                     ]]),
+
+                  [sg.Col([
+                      [sg.Text('Morse Code Translator', size=(45, 1), font=('gothic', 15))]
+                   ], element_justification='left', justification='left'),
+
+                   sg.Col([
+                      [sg.Button(image_data=close_btn_base64,
+                                 button_color=(sg.theme_background_color(), sg.theme_background_color()),
+                                 border_width=0, key='Exit')]
+                    ], vertical_alignment='top', element_justification='right', justification='right')
+                   ],
+
+                  [sg.Image(data=LOGO, size=(500, 150))],
+                  [sg.Text('Text', size=(10, 1), justification='center'),
+                   sg.Input(key='-TEXT-', enable_events=True)],
+                  [sg.Text('Morse Code', size=(10, 1), justification='center'),
+                   sg.Input(key='-MORSE_CODE-', enable_events=True)],
+                  [sg.Text('*For Morse-to-Text, use spaces to separate letters and "|" to separate words',
+                           justification='center', font=('mono', 8))],
+                  [sg.Radio('Text-to-Morse     ', "RADIO1", key='rad1', default=True),
+                   sg.Radio('Morse-to-Text            ', "RADIO1", key='rad2'),
+                   sg.Button(image_data=play_btn_base64,
+                             button_color=(sg.theme_background_color(), sg.theme_background_color()),
+                             border_width=0, key='Play', tooltip='Play sound')
+                   ]
+              ]),
+
               ]]
 
-    window = sg.Window('Translator', layout, no_titlebar=False, grab_anywhere=True)
+    window = sg.Window('Translator', layout, no_titlebar=True, grab_anywhere=True)
 
     output_code = ''
     while True:  # Event Loop
